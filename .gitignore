@@ -1,0 +1,10 @@
+# dependency
+node_modules/
+
+# vscode setting
+.vscode/
+
+# ignore private
+dist/*.js
+src/*.html
+src/*.vue

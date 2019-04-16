@@ -3,11 +3,12 @@ import { compile } from 'vue-template-compiler';
 
 class Compiler {
   public main(...argv: string[]) {
-    readdirSync(__dirname + '/src').forEach((file, i, files) => {
+    readdirSync(__dirname + '/src').filter(file => !/.+\.md/.test(file)).forEach((file, i, files) => {
       const stream = readFileSync(__dirname + `/src/${file}`).toString();
       const template = file.includes('vue') ? this.getTemplate(stream) : stream;
       const compiled = compile(template, { preserveWhitespace: false });
-      let render = String(compiled.render).replace(/_c/g, '\nh')
+      let render = String(compiled.render)
+        .replace(/_c\(/g, '\nh(')
         .replace(/_s/g, 'String')
         .replace(/\+?\"\\n\s+\"\+?/g, '')
         .replace(/\,\d\)/g, ')')
